@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# Copyright 2020 Lightbend Inc.
+# Licensed under the Apache License, Version 2.0.
+
 set -o nounset
 
 function rnd() {
