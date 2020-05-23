@@ -3,5 +3,5 @@ services: docker
 script:
   - git clone https://gist.github.com/marcellanz/a9cf0dffb01d1a83ba2bbf2ac52166fe.git tck_run
   - pushd . && cd nightly && ./run_tck_matrix.sh tck_all.jsonlines
-  - cat tck_all.jsonlines | jq -cs . | jq . > cloudstate_go-support-tck-run.json
+  - cat tck_all.jsonlines | jq -cs . | jq . > ../tck_run/cloudstate_go-support-tck-run.json
   - popd && cd tck_run && git add cloudstate_go-support-tck-run.json && git commit -m "nightly run" && git push
