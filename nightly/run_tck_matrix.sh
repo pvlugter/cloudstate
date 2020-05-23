@@ -27,10 +27,8 @@ function run() {
   local now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   SECONDS=0
   local cmd=$TCK ${func}:${func_tag} ${proxy}:${proxy_tag} cloudstateio/cloudstate-tck:${proxy_tag}
-  echo $cmd >&1
   o=$($cmd)
   local tck_status=$?
-  #  case ${tck_status} in "0") pass="true" ;; *) pass="false" ;; esac
   if [ "$tck_status" -eq 0 ]; then pass="true"; else pass="false"; fi
   local duration=$SECONDS
   local func_label="$(basename $func):$func_tag"
@@ -45,7 +43,8 @@ function run() {
 \"tck\":\"cloudstateio/cloudstate-tck:${proxy_tag}\",
 \"pass\":${pass},
 \"logs\":\"$(echo -n "${o}" | base64)\",
-\"runtime\":$duration
+\"runtime\":$duration,
+\"buildurl\":\"${$TRAVIS_BUILD_WEB_URL}\"
 }" | tr -d '\n'
 }
 
