@@ -52,8 +52,6 @@ FUNC=gcr.io/mrcllnz/cloudstate-go-tck-dev
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
 
-exit
-
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
 
