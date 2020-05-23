@@ -44,7 +44,7 @@ function run() {
 \"pass\":${pass},
 \"logs\":\"$(echo -n "${o}" | base64)\",
 \"runtime\":$duration,
-\"buildurl\":\"${$TRAVIS_BUILD_WEB_URL}\"
+\"buildurl\":\"${TRAVIS_BUILD_WEB_URL}\"
 }" | tr -d '\n'
 }
 
