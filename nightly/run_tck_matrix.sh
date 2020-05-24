@@ -45,6 +45,7 @@ function run() {
 \"runtime\":$duration,
 \"buildurl\":\"${TRAVIS_BUILD_WEB_URL}\",
 \"function_virtual_size\":\"$(docker inspect ${func}:${func_tag} | jq '.[].VirtualSize' | awk '{ b=$1 /1024/1024; print b " MB" }')\"
+\"proxy_virtual_size\":\"$(docker inspect ${proxy}:${proxy_tag} | jq '.[].VirtualSize' | awk '{ b=$1 /1024/1024; print b " MB" }')\"
 }" | tr -d '\n'
 }
 
