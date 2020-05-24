@@ -26,8 +26,7 @@ function run() {
   local proxy_tag=$4
   local now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   SECONDS=0
-  local cmd=$TCK ${func}:${func_tag} ${proxy}:${proxy_tag} cloudstateio/cloudstate-tck:${proxy_tag}
-  o=$($cmd)
+  o=$($TCK ${func}:${func_tag} ${proxy}:${proxy_tag} cloudstateio/cloudstate-tck:${proxy_tag})
   local tck_status=$?
   if [ "$tck_status" -eq 0 ]; then pass="true"; else pass="false"; fi
   local duration=$SECONDS
