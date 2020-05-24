@@ -34,7 +34,7 @@ function run() {
   local proxy_label="$(basename $proxy):$proxy_tag"
   local func_vsize=$(docker inspect ${func}:${func_tag} | jq '.[].VirtualSize' | awk '{ b=$1 /1024/1024; print b " MB" }')
   local proxy_vsize=$(docker inspect ${proxy}:${proxy_tag} | jq '.[].VirtualSize' | awk '{ b=$1 /1024/1024; print b " MB" }')
-  local vsize_info="${func_vsize}/${proxy_vsize}"
+  local vsize_info="${func_vsize} / ${proxy_vsize}"
   echo -n "{
 \"name\":\"${func_label} > ${proxy_label}\",
 \"timestamp\":\"${now}\",
