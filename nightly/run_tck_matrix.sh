@@ -18,7 +18,6 @@ readonly CS_TAG=$(git ls-remote --tag $CS_REPO | tail -n 1 | awk -F/ '{ print $3
 echo "${CS_REPO} latest release is: ${CS_TAG}"
 echo "${LIB_REPO} latest release is: ${LIB_TAG}"
 
-# 2>&1
 function run() {
   local func=$1
   local func_tag=$2
@@ -99,6 +98,17 @@ echo $(run $FUNC 0.5.6 $PROXY "$CS_TAG") >>"$out"
 
 # kotlin
 FUNC=sleipnir/kotlin-shoppingcart
+PROXY=cloudstateio/cloudstate-proxy-dev-mode
+echo $(run $FUNC latest $PROXY latest) >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-dev-mode
+echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
+echo $(run $FUNC latest $PROXY latest) >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
+echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
+
+# js
+FUNC=cloudstateio/samples-js-shopping-cart
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
