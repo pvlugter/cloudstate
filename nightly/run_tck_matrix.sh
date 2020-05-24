@@ -2,7 +2,6 @@
 
 # Copyright 2020 Lightbend Inc.
 # Licensed under the Apache License, Version 2.0.
-
 set -o errexit
 set -o nounset
 set -o pipefail
@@ -27,13 +26,12 @@ function run() {
   SECONDS=0
   o=$($TCK ${func}:${func_tag} ${proxy}:${proxy_tag} cloudstateio/cloudstate-tck:${proxy_tag})
   local tck_status=$?
-  if [ "$tck_status" -eq 0 ]; then pass="true"; else pass="false"; fi
   local duration=$SECONDS
+  if [ "$tck_status" -eq 0 ]; then pass="true"; else pass="false"; fi
   local func_label="$(basename $func):$func_tag"
   local proxy_label="$(basename $proxy):$proxy_tag"
   local func_vsize=$(docker inspect ${func}:${func_tag} | jq '.[].VirtualSize' | awk '{ b=$1 /1024/1024; print b " MB" }')
   local proxy_vsize=$(docker inspect ${proxy}:${proxy_tag} | jq '.[].VirtualSize' | awk '{ b=$1 /1024/1024; print b " MB" }')
-  local vsize_info="${func_vsize} / ${proxy_vsize}"
   echo -n "{
 \"name\":\"${func_label} > ${proxy_label}\",
 \"timestamp\":\"${now}\",
@@ -43,19 +41,20 @@ function run() {
 \"proxy_label\":\"${proxy_label}\",
 \"tck\":\"cloudstateio/cloudstate-tck:${proxy_tag}\",
 \"pass\":${pass},
+\"failed\":$(echo -n "${o}" | sed -En 's/.*, failed ([0-9]+),.*/\1/p'),
+\"succeeded\":$(echo -n "${o}" | sed -En 's/.*Tests: succeeded ([0-9]+),.*/\1/p'),
 \"logs\":\"$(echo -n "${o}" | base64)\",
 \"runtime\":$duration,
 \"buildurl\":\"${TRAVIS_BUILD_WEB_URL}\",
-\"buildurl\":\"${TRAVIS_BUILD_WEB_URL}\",
 \"function_virtual_size\":\"${func_vsize}\",
 \"proxy_virtual_size\":\"${proxy_vsize}\",
-\"vsize_info\":\"${vsize_info}\"
 }" | tr -d '\n'
 }
 
 FUNC=gcr.io/mrcllnz/cloudstate-go-tck-dev
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
+
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
