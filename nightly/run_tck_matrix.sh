@@ -32,6 +32,7 @@ function run() {
   local duration=$SECONDS
   local func_label="$(basename $func):$func_tag"
   local proxy_label="$(basename $proxy):$proxy_tag"
+  local vsize=$(awk '{ byte =$1 /1024/1024/1024; print byte " GB" }')
   echo -n "{
 \"name\":\"${func_label} > ${proxy_label}\",
 \"timestamp\":\"${now}\",
@@ -43,13 +44,16 @@ function run() {
 \"pass\":${pass},
 \"logs\":\"$(echo -n "${o}" | base64)\",
 \"runtime\":$duration,
-\"buildurl\":\"${TRAVIS_BUILD_WEB_URL}\"
+\"buildurl\":\"${TRAVIS_BUILD_WEB_URL:'https://travis-ci.com/'}\",
+\"function_virtual_size\":\"$(docker inspect ${func}:${func_tag} | jq '.[].VirtualSize' | awk '{ b=$1 /1024/1024; print b " MB" }')\"
 }" | tr -d '\n'
 }
 
 FUNC=gcr.io/mrcllnz/cloudstate-go-tck-dev
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
+
+exit
 
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
