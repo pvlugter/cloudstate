@@ -51,15 +51,10 @@ function run() {
 FUNC=gcr.io/mrcllnz/cloudstate-go-tck-dev
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
-
-exit
-
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
-
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
-
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
 echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
 
@@ -67,13 +62,10 @@ echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
 FUNC=gcr.io/mrcllnz/cloudstate-go-tck
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC "$LIB_TAG" $PROXY latest) >>"$out"
-
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC "$LIB_TAG" $PROXY "$CS_TAG") >>"$out"
-
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
 echo $(run $FUNC "$LIB_TAG" $PROXY latest) >>"$out"
-
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
 echo $(run $FUNC "$LIB_TAG" $PROXY "$CS_TAG") >>"$out"
 
