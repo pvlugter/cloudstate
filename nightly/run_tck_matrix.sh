@@ -32,7 +32,6 @@ function run() {
   local duration=$SECONDS
   local func_label="$(basename $func):$func_tag"
   local proxy_label="$(basename $proxy):$proxy_tag"
-  local vsize=$(awk '{ byte =$1 /1024/1024/1024; print byte " GB" }')
   echo -n "{
 \"name\":\"${func_label} > ${proxy_label}\",
 \"timestamp\":\"${now}\",
