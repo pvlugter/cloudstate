@@ -45,16 +45,16 @@ function run() {
 \"succeeded\":$(echo -n "${o}" | sed -En 's/.*Tests: succeeded ([0-9]+),.*/\1/p'),
 \"logs\":\"$(echo -n "${o}" | base64)\",
 \"runtime\":$duration,
-\"buildurl\":\"${TRAVIS_BUILD_WEB_URL}\",
+\"buildurl\":\"${TRAVIS_BUILD_WEB_URL:=}\",
 \"function_virtual_size\":\"${func_vsize}\",
-\"proxy_virtual_size\":\"${proxy_vsize}\",
+\"proxy_virtual_size\":\"${proxy_vsize}\"
 }" | tr -d '\n'
 }
 
+# go dev release
 FUNC=gcr.io/mrcllnz/cloudstate-go-tck-dev
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
-
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
