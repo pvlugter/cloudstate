@@ -52,7 +52,7 @@ function run() {
 }
 
 # go dev release
-FUNC=gcr.io/mrcllnz/cloudstate-go-tck-dev
+FUNC=cloudstateio/cloudstate-go-tck
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
@@ -63,7 +63,7 @@ PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
 echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
 
 # go release
-FUNC=gcr.io/mrcllnz/cloudstate-go-tck
+FUNC=cloudstateio/cloudstate-go-tck
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC "$LIB_TAG" $PROXY latest) >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
@@ -74,7 +74,7 @@ PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
 echo $(run $FUNC "$LIB_TAG" $PROXY "$CS_TAG") >>"$out"
 
 # python
-FUNC=gcr.io/mrcllnz/cloudstate-python-tck
+FUNC=cloudstateio/cloudstate-python-tck
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
