@@ -73,6 +73,17 @@ echo $(run $FUNC "$LIB_TAG" $PROXY latest) >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
 echo $(run $FUNC "$LIB_TAG" $PROXY "$CS_TAG") >>"$out"
 
+# python release
+FUNC=cloudstateio/cloudstate-python-tck
+PROXY=cloudstateio/cloudstate-proxy-dev-mode
+echo $(run $FUNC 0.1.0 $PROXY latest) >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-dev-mode
+echo $(run $FUNC 0.1.0 $PROXY "$CS_TAG") >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
+echo $(run $FUNC 0.1.0 $PROXY latest) >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
+echo $(run $FUNC 0.1.0 $PROXY "$CS_TAG") >>"$out"
+
 # python
 FUNC=cloudstateio/cloudstate-python-tck
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
