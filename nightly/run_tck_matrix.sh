@@ -9,13 +9,19 @@ set -o pipefail
 readonly out=${1:-/dev/stdout}
 
 readonly TCK=./run_tck.sh
-readonly LIB_REPO=git://github.com/cloudstateio/go-support.git
+
+readonly LIB_GO_REPO=git://github.com/cloudstateio/go-support.git
+readonly LIB_TAG=$(git ls-remote --tag $LIB_GO_REPO | tail -n 1 | awk -F/ '{ print $3 }' | sed 's/^v\(.*\)/\1/')
+
+readonly LIB_PY_REPO=git://github.com/cloudstateio/python-support.git
+readonly LIB_PY_TAG=$(git ls-remote --tag $LIB_PY_REPO | tail -n 1 | awk -F/ '{ print $3 }' | sed 's/^v\(.*\)/\1/')
+
 readonly CS_REPO=git://github.com/cloudstateio/cloudstate.git
-readonly LIB_TAG=$(git ls-remote --tag $LIB_REPO | tail -n 1 | awk -F/ '{ print $3 }' | sed 's/^v\(.*\)/\1/')
 readonly CS_TAG=$(git ls-remote --tag $CS_REPO | tail -n 1 | awk -F/ '{ print $3 }' | sed 's/^v\(.*\)/\1/')
 
 echo "${CS_REPO} latest release is: ${CS_TAG}"
-echo "${LIB_REPO} latest release is: ${LIB_TAG}"
+echo "${LIB_GO_REPO} latest release is: ${LIB_TAG}"
+echo "${LIB_PY_REPO} latest release is: ${LIB_PY_TAG}"
 
 function run() {
   local func=$1
@@ -51,7 +57,7 @@ function run() {
 }" | tr -d '\n'
 }
 
-# go dev release
+# go latest
 FUNC=cloudstateio/cloudstate-go-tck
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
@@ -73,27 +79,27 @@ echo $(run $FUNC "$LIB_TAG" $PROXY latest) >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
 echo $(run $FUNC "$LIB_TAG" $PROXY "$CS_TAG") >>"$out"
 
+# python latest
+FUNC=cloudstateio/cloudstate-python-tck
+PROXY=cloudstateio/cloudstate-proxy-dev-mode
+echo $(run $FUNC latest $PROXY latest) >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-dev-mode
+echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
+echo $(run $FUNC latest $PROXY latest) >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
+echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
+
 # python release
 FUNC=cloudstateio/cloudstate-python-tck
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
-echo $(run $FUNC 0.1.0 $PROXY latest) >>"$out"
+echo $(run $FUNC "$LIB_PY_TAG" $PROXY latest) >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
-echo $(run $FUNC 0.1.0 $PROXY "$CS_TAG") >>"$out"
+echo $(run $FUNC "$LIB_PY_TAG" $PROXY "$CS_TAG") >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
-echo $(run $FUNC 0.1.0 $PROXY latest) >>"$out"
+echo $(run $FUNC "$LIB_PY_TAG" $PROXY latest) >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
-echo $(run $FUNC 0.1.0 $PROXY "$CS_TAG") >>"$out"
-
-# python
-FUNC=cloudstateio/cloudstate-python-tck
-PROXY=cloudstateio/cloudstate-proxy-dev-mode
-echo $(run $FUNC latest $PROXY latest) >>"$out"
-PROXY=cloudstateio/cloudstate-proxy-dev-mode
-echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
-PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
-echo $(run $FUNC latest $PROXY latest) >>"$out"
-PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
-echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
+echo $(run $FUNC "$LIB_PY_TAG" $PROXY "$CS_TAG") >>"$out"
 
 # dart
 FUNC=sleipnir/dart-shoppingcart
