@@ -123,8 +123,19 @@ echo $(run $FUNC latest $PROXY latest) >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
 echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
 
-# js
+# node
 FUNC=cloudstateio/samples-js-shopping-cart
+PROXY=cloudstateio/cloudstate-proxy-dev-mode
+echo $(run $FUNC latest $PROXY latest) >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-dev-mode
+echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
+echo $(run $FUNC latest $PROXY latest) >>"$out"
+PROXY=cloudstateio/cloudstate-proxy-native-dev-mode
+echo $(run $FUNC latest $PROXY "$CS_TAG") >>"$out"
+
+# cpp
+FUNC=gcr.io/mrcllnz/cloudstate-cpp-tck
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
 echo $(run $FUNC latest $PROXY latest) >>"$out"
 PROXY=cloudstateio/cloudstate-proxy-dev-mode
