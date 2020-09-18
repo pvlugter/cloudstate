@@ -49,6 +49,7 @@ function run() {
 \"pass\":${pass},
 \"failed\":$(echo -n "${o}" | sed -En 's/.*, failed ([0-9]+),.*/\1/p'),
 \"succeeded\":$(echo -n "${o}" | sed -En 's/.*Tests: succeeded ([0-9]+),.*/\1/p'),
+\"pending\":$(echo -n "${o}" | sed -En 's/.*, pending ([0-9]+).*/\1/p'),
 \"logs\":\"$(echo -n "${o}" | base64)\",
 \"runtime\":$duration,
 \"buildurl\":\"${TRAVIS_BUILD_WEB_URL:=}\",
